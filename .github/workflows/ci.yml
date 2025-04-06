@@ -48,4 +48,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push image to Docker Hub
-        run: docker push your-dockerhub-username/bp-frontend:latest
+        run: docker push salob79/bp-frontend:latest

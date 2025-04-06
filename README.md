@@ -106,7 +106,7 @@ Visit: [http://localhost:5173](http://localhost:5173)
 
 ### 🔙 Mock Backend (Express)
 
-In another terminal:
+In another terminal from the root of the project:
 
 ```bash
 cd mock-backend
@@ -122,6 +122,8 @@ Mock API available at: [http://localhost:8000/getbpcategory](http://localhost:80
 Tests are written using **Vitest** + **React Testing Library**.
 
 ### Run all tests:
+
+In another terminal from the root of the project:
 
 ```bash
 cd frontend
