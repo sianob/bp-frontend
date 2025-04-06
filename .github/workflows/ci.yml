@@ -28,9 +28,12 @@ jobs:
       - name: Run tests
         run: npm run test -- --run
 
-    build-and-push-docker-image:
-      runs-on: ubuntu-latest
-      steps:
+  build-and-push-docker-image:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend    
+    steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
