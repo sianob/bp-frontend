@@ -7,17 +7,11 @@ on:
     branches: [main]
 
 jobs:
-  build-test-push:
+  build-and-test:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: frontend
-
-    services:
-      mock-backend:
-        image: mockserver/mockserver
-        ports:
-          - 8000:1080
 
     steps:
       - name: Checkout repo
@@ -33,6 +27,12 @@ jobs:
 
       - name: Run tests
         run: npm run test -- --run
+
+    build-and-push-docker-image:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
       - name: Build Docker image
         run: |
