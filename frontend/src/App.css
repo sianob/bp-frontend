@@ -33,10 +33,35 @@
     border-radius: 4px;
   }
   
-  .result {
+  .tip {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    font-style: italic;
+    color: #333;
+  }
+ 
+  .high {
     margin-top: 1.5rem;
     font-size: 1.2rem;
     font-weight: bold;
-    color: #333;
+    color: #ff0000;
   }
-  
+  .prehigh {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #b86506;
+  }
+  .ideal {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #036123;
+  }
+  .low {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #014ca7;
+  }

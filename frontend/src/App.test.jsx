@@ -7,6 +7,7 @@ import '@testing-library/jest-dom';
 
 
 // Mock fetch globally
+
 beforeEach(() => {
   globalThis.fetch = vi.fn();
 });
@@ -16,26 +17,47 @@ afterEach(() => {
 });
 
 test('valid input triggers API call and displays result', async () => {
-  globalThis.fetch.mockResolvedValueOnce({
-    ok: true,
-    json: async () => ({ category: 'Ideal' }),
-  });
+  // Mock the first API call to /getbpcategory
+  globalThis.fetch
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ category: 'Ideal' }),
+    })
+    // Mock the second API call to /getTip
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ tip: 'Maintain a healthy diet.' }),
+    });
 
+  // Render the App component
   render(<App />);
 
+  // Simulate user input for systolic and diastolic values
   fireEvent.change(screen.getByLabelText(/Systolic/i), { target: { value: '110' } });
   fireEvent.change(screen.getByLabelText(/Diastolic/i), { target: { value: '70' } });
+
+  // Simulate clicking the Submit button
   fireEvent.click(screen.getByText(/Submit/i));
-  
+
+  // Wait for the result to appear in the DOM
   await waitFor(() => {
     expect(screen.getByText(/Result: Ideal/i)).toBeInTheDocument();
+    expect(screen.getByText(/Tip: Maintain a healthy diet./i)).toBeInTheDocument();
   });
 
+  // Verify that fetch was called with the correct arguments
   expect(globalThis.fetch).toHaveBeenCalledWith(
-    "/getbpcategory",
+    "http://localhost:8000/getbpcategory",
     expect.objectContaining({
       method: 'POST',
       body: JSON.stringify({ systolic: 110, diastolic: 70 }),
+    })
+  );
+
+  expect(globalThis.fetch).toHaveBeenCalledWith(
+    "http://localhost:8000/getTip?category=Ideal",
+    expect.objectContaining({
+      method: 'GET',
     })
   );
 });

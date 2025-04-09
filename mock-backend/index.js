@@ -33,6 +33,21 @@ function classifyBP(systolic, diastolic) {
     }
   }
   
+  function getTip(bpCategory) {
+    if (bpCategory === "Low") {
+      return "Try to increase your salt intake and stay hydrated.";
+    }
+    if (bpCategory === "Ideal") {
+      return "Keep up the good work! Maintain a healthy lifestyle.";
+    }
+    if (bpCategory === "PreHigh") {
+      return "Consider reducing salt intake and increasing physical activity.";
+    }
+    if (bpCategory === "High") {
+      return "Consult a healthcare professional for advice.";
+    }
+    return "No tips available.";
+  }
 
 app.post('/getbpcategory', (req, res) => {
   const { systolic, diastolic } = req.body;
@@ -48,6 +63,16 @@ app.post('/getbpcategory', (req, res) => {
   const category = classifyBP(systolic, diastolic);
   res.json({ category });
 });
+
+app.get('/getTip', (req, res) => {
+  const { category } = req.query;
+  if (!category) {
+    return res.status(400).json({ error: "Category is required" });
+  }
+  const tip = getTip(category);
+  res.json({ tip });
+}
+);
 
 app.listen(8000, () => {
   console.log('Mock API running on http://localhost:8000');

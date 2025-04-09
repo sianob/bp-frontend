@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import "./App.css";
+import.meta.env.VITE_API_BASE_URL;
+
 
 export default function App() {
   const [systolic, setSystolic] = useState("");
   const [diastolic, setDiastolic] = useState("");
   const [category, setCategory] = useState("");
+  const [tip, setTip] = useState("");
 
   const handleSubmit = async (e) => {
 
@@ -22,7 +25,8 @@ export default function App() {
   
     try {
       console.log("Sending request to server...");
-      const apiBaseUrl = window._env_?.VITE_API_BASE_URL || import.meta.env.VITE_API_BASE_URL;
+      // const apiBaseUrl = window._env_?.VITE_API_BASE_URL || import.meta.env.VITE_API_BASE_URL;
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:8081";
       console.log("API Base URL:", apiBaseUrl);
 
       //const response = await fetch("/getbpcategory", {
@@ -36,7 +40,19 @@ export default function App() {
 
       const data = await response.json();
       if (response.ok) {
-        setCategory(data.category);
+        const tipResponse = await fetch(`${apiBaseUrl}/getTip?category=${data.category}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const tipData = await tipResponse.json();
+        if (tipResponse.ok) {
+          setCategory(data.category);
+          setTip(tipData.tip);
+        } else {
+          setTip(tipData.error || "No Tip available.");
+        }       
       } else {
         setCategory(data.error || "Something went wrong.");
       }
@@ -80,7 +96,8 @@ export default function App() {
 
         <button type="submit">Submit</button>
       </form>
-      {category && <div className="result">Result: {category}</div>}
+      {category && <div className={category.toLowerCase()}>Result: {category}</div>}
+      {tip && <div className="tip">Tip: {tip}</div>}
     </div>
   );
 }
