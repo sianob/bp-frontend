@@ -22,7 +22,9 @@ export default function App() {
   
     try {
       console.log("Sending request to server...");
-      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+      const apiBaseUrl = window._env_?.VITE_API_BASE_URL || import.meta.env.VITE_API_BASE_URL;
+      console.log("API Base URL:", apiBaseUrl);
+
       //const response = await fetch("/getbpcategory", {
       const response = await fetch(`${apiBaseUrl}/getbpcategory`, {
         method: "POST",
