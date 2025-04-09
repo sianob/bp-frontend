@@ -165,3 +165,24 @@ npx vitest --watch
 ---
 
 Made with ❤️ using Vite, React, and Express.
+
+https://spring.io/guides/gs/accessing-data-mongodb
+https://start.spring.io/
+https://vite.dev/guide/
+https://vitest.dev/
+
+run docker run -d -p 8080:80 salob79/bp-frontend:latest
+
+## Integration Testing
+
+In a terminal outside the dev container, navigate to the project root and run:
+
+`docker compose up -d`
+
+This will pull down and run the backend API and a mongoDB container
+
+Then in the dev container run:
+
+`npm run dev`
+
+The frontend will now be integrated with the backend and you can make changes to the frontend on the fly.

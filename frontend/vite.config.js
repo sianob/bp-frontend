@@ -9,9 +9,8 @@ export default defineConfig({
     environment: 'jsdom',
   },  
   server: {
-    proxy: {
-      '/getbpcategory': 'http://localhost:8000',
-    },
+    host: true,
+
   },  
 })
 
