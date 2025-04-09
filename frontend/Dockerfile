@@ -4,10 +4,10 @@ FROM node:18 AS builder
 WORKDIR /app
 COPY . .
 
-# Set the environment to production so Vite picks up .env.prod
-ENV NODE_ENV=production
-
 RUN npm ci
+
+# Set the environment to production so Vite picks up .env.prod
+# ENV NODE_ENV=production
 RUN npm run build
 
 # Use Nginx to serve the built app
