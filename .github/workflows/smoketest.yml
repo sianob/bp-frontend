@@ -4,7 +4,8 @@ on:
   pull_request:
     branches:
       - main
-
+  # Allow it to be called from ci/cd
+  workflow_call:
 jobs:
   smoketest:
     runs-on: ubuntu-latest
