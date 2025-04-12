@@ -1,45 +1,28 @@
 # 🩺 Blood Pressure App (Frontend + Mock API)
 
-A simple React-based blood pressure calculator app with a mock backend API using Express. This project demonstrates a clean frontend/backend split, API interaction, and test coverage using Vitest.
+A simple React-based blood pressure calculator app with a mock backend API using Express. Uses Vitest for test coverage.
+This project uses [Vite](https://vitejs.dev) for the React frontend.
 
----
-
-## 🚀 Tech Stack
+## Tech Stack
 
 - React (with Vite)
 - Express.js (mock backend)
 - Vitest + React Testing Library (unit + integration tests)
 
----
-
-## 🆕 Vite-based React Setup (Not CRA)
-
-> This project uses [Vite](https://vitejs.dev) instead of Create React App (CRA) for the React frontend.  
-> Vite offers faster startup times, modern build tooling, and a simpler config for React + testing.  
->
-> Key differences from CRA:
-> - The dev server runs on `http://localhost:5173`
-> - CSS and assets are imported directly into JavaScript
-> - Testing is powered by **Vitest**, not Jest
-> - Config lives in `vite.config.js`, not hidden behind react-scripts
-
----
-
-## 📁 Project Structure
+## Project Structure
 
 ```
-bp-containerised/
+bp-frontend/
 ├── frontend/         # React app (Vite + Vitest)
 ├── mock-backend/     # Mock Express API server
 ```
-
 ---
 
-## 🧹 Clean Setup (from scratch)
+## Build and Run
 
-If you want to reset and rebuild everything cleanly:
+### Clean Environment
 
-```bash
+```
 # 1. Remove old dependencies and builds
 rm -rf frontend/node_modules frontend/dist frontend/.vite
 rm -rf mock-backend/node_modules
@@ -47,68 +30,37 @@ rm frontend/package-lock.json
 rm mock-backend/package-lock.json
 ```
 
----
+### Install Dependencies for React (Vite)
 
-## 📦 Reinstall Dependencies
-
-### ✅ Frontend (React + Vite)
 
 ```bash
+# From root of project
 cd frontend
 npm install
 ```
 
-Ensure `frontend/package.json` includes this in "scripts":
-
-```json
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview",
-  "test": "vitest"
-}
-```
-
-Ensure `vite.config.js` contains:
-
-```js
-test: {
-  globals: true,
-  environment: 'jsdom',
-}
-```
-
----
-
-### ✅ Mock Backend (Express)
+### Install dependencies for Mock Backend (Express)
 
 ```bash
-cd ../mock-backend
+# From root of project
+cd mock-backend
 npm install
 ```
 
----
-
-## 🚀 Running the App
-
-### 🖼️ Frontend (React + Vite)
-
-In a terminal from the root of the project:
+### Run the App (React + Vite)
 
 ```bash
+# From root of project
 cd frontend
 npm run dev
 ```
 
-Visit: [http://localhost:5173](http://localhost:5173)
+LocalApp: [http://localhost:5173](http://localhost:5173)
 
----
-
-### 🔙 Mock Backend (Express)
-
-In another terminal from the root of the project:
+### Run Mock Backend (Express)
 
 ```bash
+# In new terminal from root of project
 cd mock-backend
 npm start
 ```
@@ -117,7 +69,7 @@ Mock API available at: [http://localhost:8000/getbpcategory](http://localhost:80
 
 ---
 
-## 🧪 Running Tests
+## Running Tests
 
 Tests are written using **Vitest** + **React Testing Library**.
 
@@ -126,54 +78,30 @@ Tests are written using **Vitest** + **React Testing Library**.
 In another terminal from the root of the project:
 
 ```bash
+# From root of project
 cd frontend
 npm run test
 ```
 
-### Watch mode:
+### Create Dependency Audit Report
 
 ```bash
-npx vitest --watch
+# From root of project
+cd frontend
+# Run audit on dependencies
+npm audit --json --audit-level=moderate > npm-audit.json
+# Convert audit report to html table
+node scripts/audit-to-html.cjs
 ```
 
----
-
-## ✅ Tests Cover:
-
-- Valid form submission (calls API and displays result)
-- Invalid inputs (out-of-range systolic/diastolic)
-- Empty submission handling
-- API error handling
-
----
-
-## 📌 Notes
-
-- Frontend proxy can be configured in `vite.config.js` to avoid CORS issues during dev.
-- This setup is ideal for local development and can be extended to real backend APIs like Spring Boot.
-- For production, `npm ci` is recommended for fast and deterministic installs.
-
----
-
-## 💡 Next Steps (Optional)
-
-- Add GitHub Actions for CI tests
-- Add Docker support (`docker-compose`)
-- Replace mock backend with Spring Boot
-- Store BP readings in a real database (PostgreSQL)
-
----
-
-Made with ❤️ using Vite, React, and Express.
+## References
 
 https://spring.io/guides/gs/accessing-data-mongodb
 https://start.spring.io/
 https://vite.dev/guide/
 https://vitest.dev/
 
-run docker run -d -p 8080:80 salob79/bp-frontend:latest
-
-## Integration Testing
+## Integration Testing (Coming soon)
 
 In a terminal outside the dev container, navigate to the project root and run:
 
