@@ -5,6 +5,9 @@ on:
     branches: [main]
 
 jobs:
+  smoketest:
+    uses: ./.github/workflows/smoketest.yml
+
   build-and-test:
     runs-on: ubuntu-latest
 
@@ -34,7 +37,10 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
-  build-and-push-docker-image:
+  docker-build:
+    needs:
+      - smoketest
+      - build-and-test
     runs-on: ubuntu-latest
  
     steps:
