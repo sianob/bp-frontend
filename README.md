@@ -97,8 +97,11 @@ node scripts/audit-to-html.cjs
 ## References
 
 https://spring.io/guides/gs/accessing-data-mongodb
+
 https://start.spring.io/
+
 https://vite.dev/guide/
+
 https://vitest.dev/
 
 ## Integration Testing (Coming soon)
