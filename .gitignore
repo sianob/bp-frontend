@@ -1,7 +1,6 @@
 .env
 
 .env.local
-package-lock.json
 # Logs
 logs
 *.log
