@@ -54,4 +54,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: yourdockerhubuser/bp-frontend:${{ env.VERSION }},yourdockerhubuser/bp-frontend:latest
+          tags: salob79/bp-frontend:${{ env.VERSION }},salob79/bp-frontend:latest
