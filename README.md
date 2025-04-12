@@ -11,7 +11,7 @@ This project uses [Vite](https://vitejs.dev) for the React frontend.
 
 ## Project Structure
 
-
+```
 bp-frontend/
 │
 ├── .devcontainer/           # Dev container configuration for VS Code
@@ -38,6 +38,7 @@ bp-frontend/
 ├── package-lock.json        # Dependency lockfile
 ├── vite.config.js           # Vite configuration
 └── README.md                # Project documentation
+```
 
 ---
 
@@ -46,7 +47,6 @@ bp-frontend/
 ### Clean Environment
 
 ```
-# 1. Remove old dependencies and builds
 rm -rf frontend/node_modules frontend/dist frontend/.vite
 rm -rf mock-backend/node_modules
 rm frontend/package-lock.json
