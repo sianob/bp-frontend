@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import.meta.env.VITE_API_BASE_URL;
-
+import AddTip from "./Tip";
 
 export default function App() {
   const [systolic, setSystolic] = useState("");
@@ -40,7 +40,7 @@ export default function App() {
 
       const data = await response.json();
       if (response.ok) {
-        const tipResponse = await fetch(`${apiBaseUrl}/getTip?category=${data.category}`, {
+        const tipResponse = await fetch(`${apiBaseUrl}/bptip?category=${data.category}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -98,6 +98,12 @@ export default function App() {
       </form>
       {category && <div className={category.toLowerCase()}>Result: {category}</div>}
       {tip && <div className="tip">Tip: {tip}</div>}
+
+      <div>
+      <br />  
+      <AddTip />
     </div>
+    
+    </div>    
   );
 }

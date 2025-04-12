@@ -23,7 +23,7 @@ test('valid input triggers API call and displays result', async () => {
       ok: true,
       json: async () => ({ category: 'Ideal' }),
     })
-    // Mock the second API call to /getTip
+    // Mock the second API call to /bptip
     .mockResolvedValueOnce({
       ok: true,
       json: async () => ({ tip: 'Maintain a healthy diet.' }),
@@ -55,7 +55,7 @@ test('valid input triggers API call and displays result', async () => {
   );
 
   expect(globalThis.fetch).toHaveBeenCalledWith(
-    "http://localhost:8000/getTip?category=Ideal",
+    "http://localhost:8000/bptip?category=Ideal",
     expect.objectContaining({
       method: 'GET',
     })

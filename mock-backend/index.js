@@ -33,7 +33,7 @@ function classifyBP(systolic, diastolic) {
     }
   }
   
-  function getTip(bpCategory) {
+  function getbptip(bpCategory) {
     if (bpCategory === "Low") {
       return "Try to increase your salt intake and stay hydrated.";
     }
@@ -64,15 +64,21 @@ app.post('/getbpcategory', (req, res) => {
   res.json({ category });
 });
 
-app.get('/getTip', (req, res) => {
+app.get('/bptip', (req, res) => {
   const { category } = req.query;
   if (!category) {
     return res.status(400).json({ error: "Category is required" });
   }
-  const tip = getTip(category);
-  res.json({ tip });
+  const queryTip = getbptip(category);
+  res.json({ tip: queryTip });
 }
 );
+
+app.post('/bptip', (req, res) => {
+  const { category:bodyCategory, bodyTip } = req.body;
+  const dummyResponse = `Thanks for the tip! ${bodyCategory} - ${bodyTip}`;
+  res.json({ message: dummyResponse });
+});
 
 app.listen(8000, () => {
   console.log('Mock API running on http://localhost:8000');
