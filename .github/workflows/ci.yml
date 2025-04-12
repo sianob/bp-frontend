@@ -19,12 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      # Java is needed for SonarQube
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '21'
 
       - name: Install dependencies
         run: npm install
@@ -36,7 +30,7 @@ jobs:
         run: npm run coverage
 
       - name: Upload coverage report to SonarQube
-        uses: SonarSource/sonarqube-scan-action@v1.0.0
+        uses: SonarSource/sonarqube-scan-action@v4.1.0
         with:
           projectBaseDir: .
         env:
