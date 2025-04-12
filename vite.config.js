@@ -7,6 +7,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    coverage: {
+      provider: 'v8', // or 'istanbul' if you prefer
+      reporter: ['text', 'lcov'],
+      reportsDirectory: './coverage',
+    },
   },  
   server: {
     host: true,
