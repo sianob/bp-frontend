@@ -11,11 +11,34 @@ This project uses [Vite](https://vitejs.dev) for the React frontend.
 
 ## Project Structure
 
-```
+
 bp-frontend/
-├── frontend/         # React app (Vite + Vitest)
-├── mock-backend/     # Mock Express API server
-```
+│
+├── .devcontainer/           # Dev container configuration for VS Code
+├── .github/                 # GitHub workflows (CI/CD)
+├── mock-backend/            # Mock server for local development/testing
+├── node_modules/            # Project dependencies (auto-generated)
+├── public/                  # Static assets served by Vite
+├── scripts/                 # Custom scripts (e.g. audit report generator)
+├── src/                     # React source code
+│   ├── App.jsx              # Main application component
+│   └── ...                  # Other components and logic
+│
+├── .env                     # Environment variables for local dev
+├── .env.prod               # Environment variables for production
+├── .gitignore               # Files/directories to ignore in Git
+├── docker-compose.yml       # Compose setup for frontend + mock backend
+├── Dockerfile               # Docker build config for frontend
+├── eslint.config.js         # ESLint configuration
+├── index.html               # Entry HTML file for Vite
+├── nginx.conf               # Custom NGINX config (optional)
+├── npm-audit.json           # Raw output from `npm audit` (CI)
+├── npm-audit-report.html    # HTML report from audit JSON
+├── package.json             # Project metadata and scripts
+├── package-lock.json        # Dependency lockfile
+├── vite.config.js           # Vite configuration
+└── README.md                # Project documentation
+
 ---
 
 ## Build and Run
@@ -30,38 +53,20 @@ rm frontend/package-lock.json
 rm mock-backend/package-lock.json
 ```
 
-### Install Dependencies for React (Vite)
-
+### Build and Run the App (React + Vite)
 
 ```bash
-# From root of project
-cd frontend
 npm install
-```
-
-### Install dependencies for Mock Backend (Express)
-
-```bash
-# From root of project
-cd mock-backend
-npm install
-```
-
-### Run the App (React + Vite)
-
-```bash
-# From root of project
-cd frontend
 npm run dev
 ```
 
 LocalApp: [http://localhost:5173](http://localhost:5173)
 
-### Run Mock Backend (Express)
+### Build and Run Mock Backend (Express)
 
 ```bash
-# In new terminal from root of project
 cd mock-backend
+npm install
 npm start
 ```
 
@@ -71,23 +76,18 @@ Mock API available at: [http://localhost:8000/getbpcategory](http://localhost:80
 
 ## Running Tests
 
-Tests are written using **Vitest** + **React Testing Library**.
 
-### Run all tests:
+### Run all tests (uses Vitest):
 
 In another terminal from the root of the project:
 
 ```bash
-# From root of project
-cd frontend
 npm run test
 ```
 
 ### Create Dependency Audit Report
 
 ```bash
-# From root of project
-cd frontend
 # Run audit on dependencies
 npm audit --json --audit-level=moderate > npm-audit.json
 # Convert audit report to html table
