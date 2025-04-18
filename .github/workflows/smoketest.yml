@@ -45,7 +45,7 @@ jobs:
         with:
           project: "frontend"
           format: "HTML"
-          scan: "./"
+          path: "./"
           out: "dependency-check-report"
 
       - name: Upload dependency report
