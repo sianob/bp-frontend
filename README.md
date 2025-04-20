@@ -1,4 +1,4 @@
-# 🩺 Blood Pressure App (Frontend + Mock API)
+# 🩺 Blood Pressure App (Frontend React App + Mock API)
 
 A simple React-based blood pressure calculator app with a mock backend API using Express. Uses Vitest for test coverage.
 This project uses [Vite](https://vitejs.dev) for the React frontend.
