@@ -1,4 +1,4 @@
-name: ci
+name: ci / cd
 
 on:
   push:
@@ -6,11 +6,14 @@ on:
 
 jobs:
   smoketest:
+    description: "Run smoke tests"
     uses: ./.github/workflows/smoketest.yml
 
-  build-and-test:
+  ci:
+    description: "Build and test the frontend"
     runs-on: ubuntu-latest
-
+    needs:
+      - smoketest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -37,24 +40,69 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  docker-build:
+  release:
+    description: "Build, Scan and Push Docker Image"
+    permissions:
+      contents: write  # Required to create release and push tags
     needs:
-      - smoketest
-      - build-and-test
+      - ci
     runs-on: ubuntu-latest
  
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Needed to push tags
 
-      - name: Build Docker image
+      - name: Fetch all tags
+        run: git fetch --tags
+
+      - name: Calculate Next Version
+        id: version
         run: |
-          docker build -t salob79/bp-frontend:latest .
+          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+          echo "Latest tag: $latest_tag"
+          
+          if [[ -z "$latest_tag" ]]; then
+            next_tag="v1.0.0"
+          else
+            version=${latest_tag#v}
+            IFS='.' read -r major minor patch <<< "$version"
+            patch=$((patch + 1))
+            next_tag="v${major}.${minor}.${patch}"
+          fi
+          
+          echo "Next tag: $next_tag"
+          echo "VERSION=$next_tag" >> $GITHUB_ENV
+       
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: salob79/bp-frontend:${{ env.VERSION }},salob79/bp-frontend:latest
 
       - name: Scan Docker image for vulnerabilities
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: salob79/bp-frontend:latest
+
+      - name: Create Git Tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag $VERSION
+          git push origin $VERSION
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Log in to Docker Hub
         if: success() # Only log in if the scan passes
@@ -63,6 +111,48 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Push image to Docker Hub
-        if: success() # Only push if the scan passes
-        run: docker push salob79/bp-frontend:latest
+      - name: Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: salob79/bp-frontend:${{ env.VERSION }},salob79/bp-frontend:latest
+
+  IaC:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger bp-iac workflow
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_PAT }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'sianob',
+              repo: 'bp-iac',
+              workflow_id: 'deploy.yml',
+              ref: 'main',
+              inputs: {
+                environment: 'staging',
+                action: 'create'
+              }
+            });
+
+  Deploy-to-Staging:
+    needs: iac
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger bp-deploy workflow
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_PAT }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'sianob',
+              repo: 'bp-iac',
+              workflow_id: 'deploy.yml',
+              ref: 'main',
+              inputs: {
+                environment: 'staging',
+              }
+            });
