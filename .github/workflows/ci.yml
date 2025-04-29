@@ -6,11 +6,9 @@ on:
 
 jobs:
   smoketest:
-    description: "Run smoke tests"
     uses: ./.github/workflows/smoketest.yml
 
   ci:
-    description: "Build and test the frontend"
     runs-on: ubuntu-latest
     needs:
       - smoketest
@@ -41,7 +39,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release:
-    description: "Build, Scan and Push Docker Image"
     permissions:
       contents: write  # Required to create release and push tags
     needs:
