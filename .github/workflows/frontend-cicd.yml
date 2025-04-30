@@ -18,6 +18,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          repository: sianob/bp-frontend  # Replace with the repository containing this workflow
+          ref: main                      # Replace with the branch where this workflow resides
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -52,6 +55,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
+          repository: sianob/bp-frontend  # Replace with the repository containing this workflow
+          ref: main                      # Replace with the branch where this workflow resides
           fetch-depth: 0  # Needed to push tags
 
       - name: Fetch all tags
