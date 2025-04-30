@@ -105,12 +105,26 @@ jobs:
         with:
           image-ref: salob79/bp-frontend:latest
 
-      - name: Create Git Tag
+      - name: Get and bump latest release version
+        id: bump_version
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git tag $VERSION
-          git push origin $VERSION
+          # Fetch the latest release tag from the repo
+          latest_tag=$(gh release list --repo sianob/bp-frontend --limit 1 --json tagName --jq '.[0].tagName')
+
+          echo "Latest tag: $latest_tag"
+
+          # Strip 'v' and split version parts
+          version="${latest_tag#v}"
+          IFS='.' read -r major minor patch <<< "$version"
+
+          # Increment patch version
+          patch=$((patch + 1))
+          new_version="v$major.$minor.$patch"
+
+          echo "New version: $new_version"
+          echo "VERSION=$new_version" >> $GITHUB_ENV
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
 
       - name: Create GitHub Release
         run: |
@@ -118,7 +132,7 @@ jobs:
           gh release create "${{ env.VERSION }}" \
             --repo "sianob/bp-frontend" \
             --title "Release ${{ env.VERSION }}" \
-            --notes "Automated release via GitHub Actions."
+            --generate-notes
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
 
