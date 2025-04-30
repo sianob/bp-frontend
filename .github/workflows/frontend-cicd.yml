@@ -95,7 +95,6 @@ jobs:
           echo "VERSION=$new_version" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-        output: 
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
