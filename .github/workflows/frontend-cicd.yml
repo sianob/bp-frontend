@@ -17,7 +17,7 @@ jobs:
       - smoketest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: sianob/bp-frontend
           ref: ${{ github.head_ref || github.ref_name }}                  # Replace with the branch where this workflow resides
@@ -55,7 +55,7 @@ jobs:
  
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: sianob/bp-frontend
           ref: ${{ github.head_ref || github.ref_name }}
