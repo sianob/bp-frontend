@@ -31,7 +31,6 @@ jobs:
           repository: sianob/bp-frontend
           ref: ${{ github.head_ref || github.ref_name }}                  # Replace with the branch where this workflow resides
           token: ${{ secrets.GH_PAT }} # Needed to access private repos
-          path: frontend
       
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -69,7 +68,7 @@ jobs:
           repository: sianob/bp-frontend
           ref: ${{ github.head_ref || github.ref_name }}
           token: ${{ secrets.GH_PAT }} # Needed to access private repos
-          path: frontend
+      
       - name: Fetch all tags
         run: git fetch --tags
 

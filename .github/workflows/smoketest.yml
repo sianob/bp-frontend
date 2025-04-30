@@ -20,7 +20,6 @@ jobs:
           repository: sianob/bp-frontend
           ref: ${{ github.head_ref || github.ref_name }}
           token: ${{ secrets.GH_PAT }} # Needed to access private repos
-          path: frontend
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
