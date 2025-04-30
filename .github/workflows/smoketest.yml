@@ -6,6 +6,9 @@ on:
       - main
   # Allow it to be called from ci/cd
   workflow_call:
+    secrets:
+      GH_PAT:
+        required: true
 jobs:
   smoketest:
     runs-on: ubuntu-latest

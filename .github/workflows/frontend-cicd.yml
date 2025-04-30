@@ -2,10 +2,17 @@ name: Frontend CI/CD
 
 on:
   workflow_call:
-    inputs:
-      environment:
-        required: false
-        type: string
+    secrets:
+      GH_PAT:
+        required: true
+      SONAR_TOKEN:
+        required: true
+      GH_TOKEN:
+        required: true
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
 
 jobs:
   smoketest:
