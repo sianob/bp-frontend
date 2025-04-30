@@ -16,6 +16,7 @@ on:
 
 jobs:
   smoketest:
+    name: smoketest
     uses: ./.github/workflows/smoketest.yml
     secrets:
       GH_PAT: ${{ secrets.GH_PAT }} 
