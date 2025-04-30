@@ -131,7 +131,7 @@ jobs:
           echo "Creating release ${{ env.VERSION }} in sianob/bp-frontend..."
           gh release create "${{ env.VERSION }}" \
             --repo "sianob/bp-frontend" \
-            --title "Release ${{ env.VERSION }}" \
+            --title "${{ env.VERSION }}" \
             --generate-notes
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
