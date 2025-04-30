@@ -13,6 +13,10 @@ on:
         required: true
       DOCKERHUB_TOKEN:
         required: true
+    outputs:
+      image_tag:
+        description: "Frontend image tag"
+        value: ${{ jobs.release.outputs.image_tag }}
 
 jobs:
   smoketest:
@@ -60,7 +64,8 @@ jobs:
     needs:
       - ci
     runs-on: ubuntu-latest
- 
+    outputs:
+      image_tag: ${{ steps.version.outputs.VERSION }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
