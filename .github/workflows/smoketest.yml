@@ -11,8 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     name: SmokeTest
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          repository: sianob/bp-frontend
+          ref: main
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
