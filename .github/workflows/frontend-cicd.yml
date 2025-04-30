@@ -117,8 +117,7 @@ jobs:
         with:
           tag_name: ${{ env.VERSION }}
           repository: sianob/bp-frontend
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.GH_PAT }}
 
       - name: Log in to Docker Hub
         if: success() # Only log in if the scan passes
