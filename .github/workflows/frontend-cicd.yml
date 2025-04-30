@@ -11,8 +11,8 @@ jobs:
   smoketest:
     uses: ./.github/workflows/smoketest.yml
     with:
-    secrets:
-      GH_PAT: ${{ secrets.GH_PAT }} 
+      secrets:
+        GH_PAT: ${{ secrets.GH_PAT }} 
 
   ci:
     runs-on: ubuntu-latest
