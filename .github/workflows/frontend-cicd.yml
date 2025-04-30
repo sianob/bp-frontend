@@ -73,27 +73,9 @@ jobs:
           repository: sianob/bp-frontend
           ref: ${{ github.head_ref || github.ref_name }}
           token: ${{ secrets.GH_PAT }} # Needed to access private repos
-      
-      - name: Fetch all tags
-        run: git fetch --tags
-       
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
 
-      - name: Build Docker Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: false
-          tags: salob79/bp-frontend:${{ env.VERSION }},salob79/bp-frontend:latest
-
-      - name: Scan Docker image for vulnerabilities
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: salob79/bp-frontend:latest
-
-      - name: Get and bump latest release version
-        id: bump_version
+      - name: Set New Release Version
+        id: version
         run: |
           # Fetch the latest release tag from the repo
           latest_tag=$(gh release list --repo sianob/bp-frontend --limit 1 --json tagName --jq '.[0].tagName')
@@ -110,8 +92,25 @@ jobs:
 
           echo "New version: $new_version"
           echo "VERSION=$new_version" >> $GITHUB_ENV
+          echo "VERSION=$new_version" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
+        output: 
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: salob79/bp-frontend:${{ env.VERSION }},salob79/bp-frontend:latest
+
+      - name: Scan Docker image for vulnerabilities
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: salob79/bp-frontend:latest
 
       - name: Create GitHub Release
         run: |
