@@ -38,7 +38,7 @@ jobs:
       - name: Upload HTML Audit Report
         uses: actions/upload-artifact@v4
         with:
-          name: npm-audit-report
+          name: frontend-npm-audit-report
           path: npm-audit-report.html
   
       - name: Lint code
