@@ -104,7 +104,7 @@ https://vite.dev/guide/
 
 https://vitest.dev/
 
-## Integration Testing (Coming soon)
+## Integration Testing
 
 In a terminal outside the dev container, navigate to the project root and run:
 
