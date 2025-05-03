@@ -65,6 +65,7 @@ export default function App() {
   return (
     <div className="container">
       <h1>Blood Pressure Calculator</h1>
+      <h3>THIS IS A CANARY</h3>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="systolic">Systolic Pressure</label>
